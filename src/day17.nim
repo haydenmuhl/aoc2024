@@ -1,9 +1,20 @@
-# This is just an example to get you started. A typical binary package
-# uses this file as the main entry point of the application.
+import lib
 
-proc main =
-  echo("foo")
+import std/re
+import std/algorithm
+import std/strformat
+import std/strutils
+import std/tables
+import std/sequtils
+import std/deques
 
+
+proc part1 =
+  discard
+
+proc part2 =
+  discard
 
 when isMainModule:
-  main()
+  part1()
+  # part2()
