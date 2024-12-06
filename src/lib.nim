@@ -9,6 +9,10 @@ proc parseInts*(line: string): seq[int] =
   for s in substrings:
     result.add(s.parseInt())
 
+proc readLines*(f: File): seq[string] =
+  for line in f.lines():
+    result.add(line)
+
 proc peek*[T](a: openArray[T]): T =
   a[a.len() - 1]
 
