@@ -69,13 +69,10 @@ proc makesLoop(field: seq[string], guard, stone: Point): bool =
   result = false
   var dir = down
   while true:
-    # echo(fmt"{guard}, {dir}")
-    if path.contains((guard, dir)):
-      # echo("loop")
-      result = true
-      break
-    path.incl((guard, dir))
     while field.get(guard + dir) == '#' or guard + dir == stone:
+      if path.contains((guard, dir)):
+        return true
+      path.incl((guard, dir))
       dir = turn(dir)
     guard += dir
     if not inBounds(field, guard):
