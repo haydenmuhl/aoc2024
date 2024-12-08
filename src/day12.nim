@@ -7,6 +7,7 @@ import std/strutils
 import std/tables
 import std/sequtils
 import std/deques
+import std/sets
 
 
 proc part1 =
