@@ -45,8 +45,19 @@ proc part1 =
     stones = blink(stones)
   echo(stones.len())
 
-proc blink2(now, next: ref seq[int]) =
-  discard
+var cache = initTable[(int, int), int]()
+
+proc findLength(stone, blinks: int): int =
+  if blinks == 0:
+    return 1
+  if cache.hasKey((stone, blinks)):
+    return cache[(stone, blinks)]
+
+  let nextStones = calc(stone)
+  for next in nextStones:
+    result += findLength(next, blinks - 1)
+  cache[(stone, blinks)] = result
+
 
 proc part2 =
   let infile = open("data/day11.txt")
@@ -54,21 +65,11 @@ proc part2 =
 
   var stones = infile.readLine().split(" ").map(parseInt)
 
-  var now: ref seq[int] = seq[int].new()
-  var next: ref seq[int] = seq[int].new()
-
-  now[].insert(stones)
-
-  for i in 1..75:
-    echo(i)
-    next[].setLen(0)
-    blink2(now, next)
-    let tmp = now
-    now = next
-    next = tmp
-
-    echo(now[].len())
+  var total = 0
+  for stone in stones:
+    total += findLength(stone, 75)
+  echo(total)
 
 when isMainModule:
-  part1()
-  # part2()
+  # part1()
+  part2()
