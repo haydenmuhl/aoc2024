@@ -2,6 +2,11 @@ import std/re
 import std/strutils
 import std/strformat
 
+# 2D point
+type Point* = object
+  x*: int
+  y*: int
+
 let intsRegex = re(r"(0|-?[1-9][0-9]*)")
 
 proc parseInts*(line: string): seq[int] =
@@ -13,13 +18,14 @@ proc readLines*(f: File): seq[string] =
   for line in f.lines():
     result.add(line)
 
+proc get*(field: seq[string], p: Point): char = field[p.y][p.x]
+proc get*[T](field: seq[seq[T]], p: Point): T = field[p.y][p.x]
+
+proc inBounds*(field: openArray[string], p: Point): bool =
+  p.x >= 0 and p.x < field[0].len() and p.y >= 0 and p.y < field.len()
+
 proc peek*[T](a: openArray[T]): T =
   a[a.len() - 1]
-
-# 2D point
-type Point* = object
-  x*: int
-  y*: int
 
 const right* = Point(x: 1, y: 0)
 const left* = Point(x: -1, y: 0)
@@ -49,3 +55,6 @@ proc `+=`*(self: var Point, other: Point) =
 
 proc `-=`*(self: var Point, other: Point) =
   self = self - other
+
+proc adjacent*(p: Point): seq[Point] =
+  @[p + up, p + right, p + down, p + left]
