@@ -1,3 +1,4 @@
+import std/hashes
 import std/re
 import std/strutils
 import std/strformat
@@ -20,6 +21,11 @@ proc readLines*(f: File): seq[string] =
 
 proc get*(field: seq[string], p: Point): char = field[p.y][p.x]
 proc get*[T](field: seq[seq[T]], p: Point): T = field[p.y][p.x]
+
+proc get*(field: seq[string], p: Point, default: char): char =
+  if p.y < 0 or p.y >= field.len() or p.x < 0 or p.x >= field[0].len():
+    return default
+  field[p.y][p.x]
 
 proc inBounds*(field: openArray[string], p: Point): bool =
   p.x >= 0 and p.x < field[0].len() and p.y >= 0 and p.y < field.len()
@@ -55,6 +61,10 @@ proc `+=`*(self: var Point, other: Point) =
 
 proc `-=`*(self: var Point, other: Point) =
   self = self - other
+
+proc hash*(self: Point): Hash =
+  result = self.x.hash !& self.y.hash
+  result = !$ result
 
 proc adjacent*(p: Point): seq[Point] =
   @[p + up, p + right, p + down, p + left]
