@@ -62,6 +62,11 @@ proc `+=`*(self: var Point, other: Point) =
 proc `-=`*(self: var Point, other: Point) =
   self = self - other
 
+proc `*`*(self: Point, i: int): Point =
+  Point(x: self.x * i, y: self.y * i)
+proc `*`*(i: int, self: Point): Point =
+  Point(x: self.x * i, y: self.y * i)
+
 proc hash*(self: Point): Hash =
   result = self.x.hash !& self.y.hash
   result = !$ result
