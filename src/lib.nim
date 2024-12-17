@@ -19,7 +19,9 @@ proc readLines*(f: File): seq[string] =
   for line in f.lines():
     result.add(line)
 
-proc get*(field: seq[string], p: Point): char = field[p.y][p.x]
+proc `[]=`*(field: var seq[string], p: Point, c: char) = field[p.y][p.x] = c
+proc `[]`*(field: seq[string], p: Point): char = field[p.y][p.x]
+proc get*(field: seq[string], p: Point): char = field[p]
 proc get*[T](field: seq[seq[T]], p: Point): T = field[p.y][p.x]
 
 proc get*(field: seq[string], p: Point, default: char): char =
